@@ -1,8 +1,9 @@
 const express = require('express');
-const useSocket = require('socket.io');
-const app = express();
+const Socket = require('socket.io');
 
+const app = express();
 const server = require('https').Server(app); // вдруг ошибка
+const io = Socket(server);
 
 const rooms = new Map();
 
@@ -12,7 +13,11 @@ app.get('/users', function (req, res) {
 	res.json(rooms);
 });
 
-app.listen(8888, (error) => {
+io.on('connection', (socket) => {
+	console.log('socket connected');
+});
+
+server.listen(8888, (error) => {
 	if (error) {
 		throw Error(error);
 	}
