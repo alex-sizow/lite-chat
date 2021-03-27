@@ -1,20 +1,17 @@
 const express = require('express');
-const Socket = require('socket.io');
 
 const app = express();
-const server = require('https').Server(app); // вдруг ошибка
-const io = Socket(server);
+const server = require('http').Server(app); // вдруг ошибка
+const io = require('socket.io')(server);
 
 const rooms = new Map();
 
-app.get('/users', function (req, res) {
-	rooms.set('hello', '');
-	console.log(rooms);
+app.get('/rooms', function (req, res) {
 	res.json(rooms);
 });
 
 io.on('connection', (socket) => {
-	console.log('socket connected');
+	console.log('user connected', socket.id);
 });
 
 server.listen(8888, (error) => {
