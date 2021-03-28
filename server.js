@@ -2,7 +2,12 @@ const express = require('express');
 
 const app = express();
 const server = require('http').Server(app); // вдруг ошибка
-const io = require('socket.io')(server);
+const io = require('socket.io')(server, {
+	cors: {
+		origin: 'http://localhost:3000',
+		credentials: true,
+	},
+});
 
 const rooms = new Map();
 
